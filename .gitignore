@@ -1,0 +1,11 @@
+# data and caches (re-created by the notebook)
+gtsrb/
+GTSRB/
+*.npz
+*.zip
+# experiment tracking / notebook clutter
+wandb/
+.ipynb_checkpoints/
+__pycache__/
+*.pth
+.DS_Store
