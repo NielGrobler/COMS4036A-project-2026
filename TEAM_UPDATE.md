@@ -1,6 +1,6 @@
 # Team update — Wed 21 Oct
 
-Presentations are **Tue 27 Oct**, nine days away. Repo (4%), report (8%) and presentation + individual Q&A (6%) are all due then.
+Presentations are **Tue 27 Oct**, six days away. Repo (4%), report (8%) and presentation + individual Q&A (6%) are all due then.
 
 ## Done
 - `project.ipynb` is built in the lab format: sections 0–12, numbered questions, *Answer:* cells, a W&B section and a submit checklist. All the code is written. **The full run on real GTSRB (T4, all 60 runs) finished on 21 Oct with no errors.** `project_results_with_answers.ipynb` has the outputs plus draft answers for every question.
@@ -51,7 +51,8 @@ The code for every part already runs (tested on synthetic data). Owning a part n
 | when | what | who |
 |---|---|---|
 | ✅ 21 Oct | Full GPU run, draft answers | Khuselo |
-| now | Reword the draft answers for your part; push results/ + figures/ | split by part |
+| ✅ 21 Oct | results/, figures/, draft answers pushed to `khuselo/full-pipeline` | Khuselo |
+| now | Reword the draft answers for your part; merge the PR | split by part |
 | ~22 Oct | Report draft (6 pp): problem, method, experiment, results, next steps | all |
 | ~25 Oct | Slides + Q&A rehearsal; each person explains every section | all |
 
