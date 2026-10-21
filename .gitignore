@@ -9,3 +9,4 @@ wandb/
 __pycache__/
 *.pth
 .DS_Store
+.Rhistory

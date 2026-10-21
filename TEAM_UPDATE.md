@@ -1,10 +1,31 @@
-# Team update — Sun 18 Oct
+# Team update — Wed 21 Oct
 
-Presentations are **Tue 27 Oct**, nine days away. Repo (4%), report (8%) and presentation + individual Q&A (6%) are all due then.
+Presentations are **Tue 27 Oct**, six days away. Repo (4%), report (8%) and presentation + individual Q&A (6%) are all due then.
 
 ## Done
-- `project.ipynb` is built in the lab format: sections 0–12, numbered questions, *Answer:* cells, a W&B section and a submit checklist. All the code is written. It has been run end to end on a small synthetic stand-in, so every cell executes. **It has not run on real GTSRB on a GPU yet.**
+- `project.ipynb` is built in the lab format: sections 0–12, numbered questions, *Answer:* cells, a W&B section and a submit checklist. All the code is written. **The full run on real GTSRB (T4, all 60 runs) finished on 21 Oct with no errors.** `project_results_with_answers.ipynb` has the outputs plus draft answers for every question.
 - `README.md` and `requirements.txt` cover the repo marks.
+
+## Headline result (test macro-F1, mean ± std over 3 seeds)
+| N | classical (full bank) | frozen probe | fine-tuned | gap ft − classical (paired) |
+|---|---|---|---|---|
+| 200 | 0.317 ± 0.026 | 0.303 ± 0.015 | 0.478 ± 0.035 | +0.161 ± 0.009 |
+| 500 | 0.457 ± 0.010 | 0.428 ± 0.024 | 0.789 ± 0.019 | +0.331 ± 0.014 |
+| 1000 | 0.562 ± 0.007 | 0.477 ± 0.033 | 0.925 ± 0.021 | +0.363 ± 0.028 |
+| 2000 | 0.659 ± 0.022 | 0.545 ± 0.021 | 0.963 ± 0.006 | +0.304 ± 0.026 |
+| 5000 | 0.753 ± 0.006 | 0.603 ± 0.008 | 0.981 ± 0.006 | +0.227 ± 0.011 |
+
+Majority floor: macro-F1 0.0025, accuracy 0.057.
+
+- **Hypothesis, part 1 (CNN higher at every size): supported.** Every seed, every N.
+- **Hypothesis, part 2 (gap widest at low data): contradicted.** The gap is smallest at N=200, peaks at N=1000 and shrinks after.
+- Fine-tuning on 500 images (0.789) beats the classical pipeline on 5000 (0.753).
+- Frozen ImageNet features are *worse* than the filter bank from N≥500. The gain comes from fine-tuning, not from the features alone.
+- The classical pipeline fails on rare classes and on speed-limit digits (20→30 km/h 56%, 120→80 24%).
+- Cost: the classical model is 0.43 MB vs 44.8 MB, but our implementation is *slower* per image (98 vs 25 ms on CPU), because of its large unoptimised filters.
+- Tuning: full bank > MR8 (0.548 vs 0.367 val). The best fine-tune lr is at the top of the grid (1e-3), so the CNN numbers may be conservative.
+
+Limitations to state in the report: grayscale only (no colour); linear classifier; seed mixes subset and initialisation variance; N=200 gives some classes only one image.
 
 ## Changes from the proposal (we must be able to defend these)
 1. **Track-level validation split.** GTSRB images come in ~30-frame tracks of the same sign, so a random split leaks. Validation is used only for tuning, once, at N=1000.
@@ -29,8 +50,9 @@ The code for every part already runs (tested on synthetic data). Owning a part n
 ## Next
 | when | what | who |
 |---|---|---|
-| now | Run all on Colab GPU (~1 h); fix anything real data breaks | Khuselo |
-| after run | Fill the *Answer:* cells | split by section |
+| ✅ 21 Oct | Full GPU run, draft answers | Khuselo |
+| ✅ 21 Oct | results/, figures/, draft answers pushed to `khuselo/full-pipeline` | Khuselo |
+| now | Reword the draft answers for your part; merge the PR | split by part |
 | ~22 Oct | Report draft (6 pp): problem, method, experiment, results, next steps | all |
 | ~25 Oct | Slides + Q&A rehearsal; each person explains every section | all |
 
