@@ -2,9 +2,9 @@
 
 COMS4036A Honours project · Khuselo Sofohlo (2729931), Wakhiwe Ndzimandze (2694083), Niel Grobler (2690034)
 
-**Question.** How does the amount of labelled training data change the advantage of an ImageNet-pretrained ResNet-18 over a classical MR8 filter-bank pipeline, on GTSRB traffic-sign classification?
+**Question:** How does the amount of labelled training data change the advantage of an ImageNet-pretrained ResNet-18 over a classical MR8 filter-bank pipeline, on GTSRB traffic-sign classification?
 
-**Hypothesis.** The pretrained CNN keeps a higher macro-F1 at every size, and the gap widens most in the low-data regime.
+**Hypothesis:** The pretrained CNN keeps a higher macro-F1 at every size, and the gap widens most in the low-data regime.
 
 ## What is compared
 
@@ -39,9 +39,13 @@ Every image is resized once to 64×64 and cached as `gtsrb64.npz`.
 
 ## Running
 
-**Runtime ▸ Run all.** Total time is about one hour on a T4, most of it the 15 fine-tuning runs plus tuning.
+1. Open `project.ipynb` in Colab and set **Runtime ▸ Change runtime type ▸ T4 GPU**.
+2. Choose **Runtime ▸ Run all**. The full run takes about one hour on a T4: most of that is the 15 fine-tuning runs, plus tuning.
+3. The first cell mounts Google Drive and works from `MyDrive/coms4036a-run`, so the data cache and `results/` survive a disconnect. Outside Colab it does nothing.
 
-The experiment loop (Section 7) is resumable. It appends each run to `results/results.csv` and skips runs already there, so after a disconnect, just run all again. To reproduce from scratch, delete `results/` first.
+The notebook in this repository is saved **with the outputs of our run** (21 Oct 2026), so you can read the results without running it.
+
+The experiment loop (Section 7) is resumable: it appends each run to `results/results.csv` and skips runs already there. After a disconnect, choose **Run all** again. To reproduce from scratch, delete `results/` first; every seed is fixed.
 
 ## Outputs
 
@@ -59,4 +63,3 @@ The experiment loop (Section 7) is resumable. It appends each run to `results/re
 ## Reproducibility
 
 All randomness goes through `seed_everything(seed)`, with cuDNN in deterministic mode. The validation split is fixed by `CFG["split_seed"]`. Subsets come from `np.random.RandomState(seed)`. Mixed precision on the GPU can still move fine-tuning results in the 3rd–4th decimal between machines.
-
